@@ -1,7 +1,7 @@
 import socket
 
 HOST = "127.0.0.1"
-PORT = 5555
+PORT = 4444
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
@@ -12,7 +12,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print("Connection closed by server...")
             break
 
-        print(data.decode().strip())
+        decoded_data = data.decode()
+
+        if ">" in decoded_data:
+            print(decoded_data, end="")
+        else:
+            print(decoded_data)
+
         msg = input()
 
         if msg == "exit":

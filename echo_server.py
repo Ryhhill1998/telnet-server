@@ -3,18 +3,18 @@ import threading
 
 
 def handle_client(sock, addr):
-    sock.sendall(b"Connected to echo server...")
-
     while True:
         try:
+            print('hello')
+            sock.sendall(b"\n> ")
             data = sock.recv(1024)
 
             if not data:
                 print(f"Connection closed by {addr}")
                 break
 
-            print(f"Received from {addr}: {data.decode().strip()}")
-            sock.send(data)
+            print(f"Received from {addr}: {data.decode()}")
+            sock.sendall(data)
 
         except ConnectionResetError:
             print(f"Connection reset by {addr}")
@@ -24,10 +24,11 @@ def handle_client(sock, addr):
             print(f"Error with {addr}: {e}")
             break
 
+    print("closing socket")
     sock.close()
 
 
-def start_server(host: str = "127.0.0.1", port: int = 5555):
+def start_server(host: str = "127.0.0.1", port: int = 4444):
     server_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
     server_socket.bind((host, port))
     server_socket.listen(5)
